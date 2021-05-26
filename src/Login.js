@@ -1,4 +1,5 @@
 import React from 'react';
+import closeIcon from './icons/closeIcon.svg';
 
 
 
@@ -20,7 +21,7 @@ const Login = (props) =>{
 
     return(
         <section className="login">
-            <div className="loginContainer">Welcome to the ChatRoom</div>
+            
             <div className="loginContainer">
                 <label>Username</label>
                 <input type="text" 
@@ -49,6 +50,10 @@ const Login = (props) =>{
                         </>
                     )}
                 </div>
+            </div>
+            <div className="loginContainer">
+            <img src={closeIcon}/>
+            <div className="hero">Welcome to the ChatRoom</div>
             </div>
         </section>
     )
