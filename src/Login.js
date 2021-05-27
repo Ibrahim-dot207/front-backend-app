@@ -21,7 +21,6 @@ const Login = (props) =>{
 
     return(
         <section className="login">
-            
             <div className="loginContainer">
                 <label>Username</label>
                 <input type="text" 
@@ -43,7 +42,7 @@ const Login = (props) =>{
                         <button onClick={handleLogin}>Sign In</button>
                         <p>Don't Have an Account? <span onClick={()=>setHasAccount(!hasAccount)}>Sign Up</span></p>
                         </>
-                    ): (
+                    ):(
                         <>
                         <button onClick={handleSignup}>Sign Up</button>
                         <p>Have an Account? <span onClick={()=>setHasAccount(!hasAccount)}>Sign In</span></p>
@@ -52,11 +51,11 @@ const Login = (props) =>{
                 </div>
             </div>
             <div className="loginContainer">
-            <img src={closeIcon}/>
+            <img src={closeIcon} alt=""/>
             <div className="hero">Welcome to the ChatRoom</div>
             </div>
         </section>
-    )
-}
+    );
+};
 
 export default Login;

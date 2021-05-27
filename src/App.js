@@ -5,22 +5,22 @@ import Welcome from './Welcome';
 import './App.css';
 
 const App =()=> {
-  const [user, setUser]= useState('');
-  const [email, setEmail]= useState('');
-  const [password, setPassword]= useState('');
-  const [emailError, setEmailError]= useState('');
-  const [passwordError, setPasswordError]= useState('');
-  const [hasAccount, setHasAccount]= useState('');
+  const [user, setUser]= useState("");
+  const [email, setEmail]= useState("");
+  const [password, setPassword]= useState("");
+  const [emailError, setEmailError]= useState("");
+  const [passwordError, setPasswordError]= useState("");
+  const [hasAccount, setHasAccount]= useState(false);
 
 
   const clearInputs = () =>{
-    setEmail('');
-    setPassword('');
+    setEmail("");
+    setPassword("");
   }
 
   const clearErrors = () =>{
-    setEmailError('');
-    setPasswordError('');
+    setEmailError("");
+    setPasswordError("");
   }
 
   const handleLogin = () =>{
@@ -28,8 +28,8 @@ const App =()=> {
     fire
         .auth()
         .signInWithEmailAndPassword(email, password)
-        .catch(err => {
-          switch(err.code){
+        .catch((err) => {
+          switch (err.code){
             case "auth/invalid-email":
             case "auth/user-disabled":
             case "auth/user-not-found":
@@ -47,7 +47,7 @@ const App =()=> {
     fire
         .auth()
         .signInWithEmailAndPassword(email, password)
-        .catch(err => {
+        .catch((err) => {
           switch(err.code){
             case "auth/email-already-in-use":
             case "auth/invalid-email":
@@ -65,19 +65,19 @@ const App =()=> {
   };
 
   const authListener =() =>{
-    fire.auth().onAuthStateChanged(user =>{
+    fire.auth().onAuthStateChanged((user) =>{
       if(user){
         clearInputs();
         setUser(user);
       }else{
-        setUser('');
+        setUser("");
       }
     });
   };
 
   useEffect(()=>{
     authListener();
-  },[])
+  },[]);
 
 
   return (
@@ -101,6 +101,6 @@ const App =()=> {
       )}
     </div>
   );
-}
+};
 
 export default App;
