@@ -50,9 +50,9 @@ const Login = (props) =>{
                     )}
                 </div>
             </div>
-            <div className="loginContainer">
+            <div>
             <img src={closeIcon} alt=""/>
-            <div className="hero">Welcome to the ChatRoom</div>
+            <div >Welcome to the ChatRoom</div>
             </div>
         </section>
     );
