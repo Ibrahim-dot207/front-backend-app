@@ -2,11 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import {Auth0Provider} from '@auth0/auth0-react';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
+    <Auth0Provider
+    domain='marcourt207.eu.auth0.com'
+    clientId='LX6Urn0TZmd5erdZzKEjJtRlIcMSHd79'
+    redirectUri={window.location.origin}
+    audience='chatroom identifier'
+    scope='openid profile email'
+    >
     <App />
+    </Auth0Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,106 +1,72 @@
-import React,{useState, useEffect} from 'react';
-import fire from './fire';
-import Login from './Login';
-import Welcome from './Welcome';
-import './App.css';
+import React from 'react';
+import './Chat.css';
+import axios from 'axios';
+import Chat from './Chat';
+import closeIcon from './icons/closeIcon.svg';
+import {useAuth0} from '@auth0/auth0-react';
 
 const App =()=> {
-  const [user, setUser]= useState("");
-  const [email, setEmail]= useState("");
-  const [password, setPassword]= useState("");
-  const [emailError, setEmailError]= useState("");
-  const [passwordError, setPasswordError]= useState("");
-  const [hasAccount, setHasAccount]= useState(false);
+  const {
+    loginWithPopup, 
+    loginWithRedirect, 
+    logout, 
+    user,
+    isAuthenticated,
+    getAccessTokenSilently
+  } = useAuth0();
 
-
-  const clearInputs = () =>{
-    setEmail("");
-    setPassword("");
-  }
-
-  const clearErrors = () =>{
-    setEmailError("");
-    setPasswordError("");
-  }
-
-  const handleLogin = () =>{
-    clearErrors();
-    fire
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .catch((err) => {
-          switch (err.code){
-            case "auth/invalid-email":
-            case "auth/user-disabled":
-            case "auth/user-not-found":
-              setEmailError(err.message);
-              break;
-            case "auth/wrong-password":
-              setPasswordError(err.message);
-              break;
-          }
-        });
+   function callApi (){
+    axios.get('http://localhost:4000/')
+          .then(response=>console.log(response.data))
+          .catch(error=>console.log(error.message));
   };
 
-  const handleSignup = () =>{
-    clearErrors();
-    fire
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .catch((err) => {
-          switch(err.code){
-            case "auth/email-already-in-use":
-            case "auth/invalid-email":
-              setEmailError(err.message);
-              break;
-            case "auth/weak-password":
-              setPasswordError(err.message);
-              break;
-          }
-        });
-  };
-
-  const handleLogout = () => {
-    fire.auth().signOut();
-  };
-
-  const authListener =() =>{
-    fire.auth().onAuthStateChanged((user) =>{
-      if(user){
-        clearInputs();
-        setUser(user);
-      }else{
-        setUser("");
+  async function callProtectedApi () {
+    try {
+    const token = await getAccessTokenSilently()
+    const response = await axios.get('http://localhost:4000/protected', {
+      headers: {
+        authorization: `Bearer ${token}`,
       }
-    });
+    })
+      console.log(response.data);
+  }catch(error){
+    console.log(error.message);
+  }
   };
+      return(
+        <div>
+          <section>
+          <h1>Chatroom App</h1>
+          <ul>
+            <li>
+              <button onClick={loginWithPopup}>Login With Popup</button>
+            </li>
+            <li>
+              <button onClick={loginWithRedirect}>Login With Redirect</button>
+            </li>
+            <li>
+              <button onClick={logout}>Logout</button>
+            </li>
+            <ul>
+              <li><button onClick={callApi}>call server route</button></li>
+              <li><button onClick={callProtectedApi}>call protected server route</button></li>
+            </ul>
 
-  useEffect(()=>{
-    authListener();
-  },[]);
-
-
-  return (
-    <div className="App">
-      {user ?(
-        <Welcome handleLogout={handleLogout}/>
-      ):(
-        <Login 
-      email={email} 
-      setEmail={setEmail} 
-      password={password} 
-      setPassword={setPassword}
-      handleLogin={handleLogin}
-      handleSignup={handleSignup}
-      hasAccount={hasAccount}
-      setHasAccount={setHasAccount}
-      emailError={emailError}
-      passwordError={passwordError}
-
-      />
-      )}
-    </div>
-  );
+          </ul>
+            <h3>User is {isAuthenticated ? <Chat user={user}/> : "Not Logged in"}</h3>
+           
+            {isAuthenticated && (
+            <pre style={{textAlign: 'start'}}>
+              {JSON.stringify(user, null, 2)}
+            </pre>
+            )}
+            </section>
+            <img src={closeIcon} alt=""/>
+        </div>
+      )                                                                                                                                                                                                                                                                                  
+  
+  
 };
 
 export default App;
