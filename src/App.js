@@ -48,7 +48,7 @@ const App =()=> {
             <li>
               <button onClick={logout}>Logout</button>
             </li>
-            <ul>
+            <ul className="hero">
               <li><button onClick={callApi}>call server route</button></li>
               <li><button onClick={callProtectedApi}>call protected server route</button></li>
             </ul>
