@@ -2,6 +2,7 @@ import React from 'react';
 import './Chat.css';
 import axios from 'axios';
 import Chat from './Chat';
+import { motion } from "framer-motion";
 import closeIcon from './icons/closeIcon.svg';
 import {useAuth0} from '@auth0/auth0-react';
 
@@ -35,9 +36,10 @@ const App =()=> {
   }
   };
       return(
-        <div>
+        <div >
           <section>
           <h1>Chatroom App</h1>
+          <motion.div animate={{y: [0,150,150,0], rotate: 90}} transition={{duration:3, repeat: 10}}>
           <ul>
             <li>
               <button onClick={loginWithPopup}>Login With Popup</button>
@@ -54,6 +56,7 @@ const App =()=> {
             </ul>
 
           </ul>
+          </motion.div>
             <h3>User is {isAuthenticated ? <Chat user={user}/> : "Not Logged in"}</h3>
            
             {isAuthenticated && (
